@@ -222,20 +222,6 @@ pub(crate) fn nu_repl(engine_state: &mut EngineState, parsed_nu_cli_args: Nushel
         // Check for pre_prompt hook
         let config = nu_engine::env::get_config(engine_state, &stack);
 
-      dbg!(&config.hooks.env_change);
-
-      if let Some(Value::Record { val, .. }) = stack.get_env_var(engine_state, "config") {
-        let val = val.get("hooks")
-          .unwrap()
-          .as_record().unwrap()
-          .get("env_change")
-          .unwrap()
-          .as_record().unwrap()
-          .get("PWD").unwrap();
-
-        dbg!(val);
-      }
-
         if let Some(hook) = config.hooks.pre_prompt.clone() {
             if let Err(err) = eval_hook(
                 engine_state,
